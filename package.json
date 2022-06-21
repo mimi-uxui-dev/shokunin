@@ -1,0 +1,27 @@
+{
+  "name": "shokunin",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "start": "budo src/index.js:bundle.js --dir ./ --live --open",
+    "build": "browserify src/index.js -o bundle.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/mimi-uxui-dev/shokunin.git"
+  },
+  "author": "Mimi from  mitsustudio.com",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/mimi-uxui-dev/shokunin/issues"
+  },
+  "homepage": "https://github.com/mimi-uxui-dev/shokunin#readme",
+  "devDependencies": {
+    "budo": "^11.7.0"
+  },
+  "dependencies": {
+    "bel": "^6.0.0",
+    "csjs-inject": "^1.0.1"
+  }
+}
