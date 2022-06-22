@@ -95,6 +95,29 @@ h2 {
     flex-direction: column;
 }
 
+.imgBg--grid {
+    width: 100%;
+    height: auto;
+    min-height: 700px;
+    padding: 80px 72px;
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr;
+    gap: 30px;
+}
+
+.project-id {
+
+    width: 100%;
+    height: auto;
+}
+
+
+.project-id:hover {
+    cursor: pointer;
+    transform: translateY(-10px);
+    transition: var(--transition);
+}
+
 .atf {
     background-image: url(./imgs/Home.png);
 }
@@ -109,6 +132,10 @@ h2 {
 
 .proposals {
     background-image: url(./imgs/Proposals.png);
+}
+
+.projects {
+    background-image: url(./imgs/Projects.png);
 }
 
 .btn {
