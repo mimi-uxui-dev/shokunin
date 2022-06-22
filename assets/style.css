@@ -8,6 +8,7 @@
     --linkLineHeight: 31px;
     --h1LineHeight: 100px;
     --h2LineHeight: 61px;
+    --btnSize: 24px;
 
     --linkSize: 25px;
     --h1Size: 96px;
@@ -18,6 +19,9 @@
     --fontStyletNormal: normal;
 
     --nav__linksGAP: 32px;
+
+    --btn-maxW: 315px;
+    --btn-p: 18px 67px;
 }
 
 * {
@@ -115,9 +119,7 @@ h2 {
     display: grid;
     grid-template-columns: 1fr 1fr 1fr;
     gap: 30px;
-
     margin: 64px 0;
-
 }
 
 
@@ -141,7 +143,6 @@ h2 {
 
 .project-id-bg {
     background-image: url(./imgs/individualProject.png);
-
 }
 
 .proposals {
@@ -157,16 +158,16 @@ h2 {
     flex-direction: row;
     justify-content: center;
     align-items: center;
-    padding: 18px 67px;
+    padding: var(--btn-p);
     gap: 10px;
 
     border-radius: 12px;
 
     width: fit-content;
-    min-width: 315px;
-    font-style: normal;
-    font-weight: 500;
-    font-size: 24px;
+    min-width: var(--btn-maxW);
+    font-style: var(--fontStyletNormal);
+    font-weight: var(--font500);
+    font-size: var(--btnSize);
     line-height: 31px;
     /* identical to box height */
 
@@ -180,17 +181,16 @@ h2 {
     flex-direction: row;
     justify-content: center;
     align-items: center;
-    padding: 18px 67px;
+    padding: var(--btn-p);
     gap: 10px;
 
     border-radius: 12px;
 
     width: fit-content;
-    min-width: 315px;
-    font-style: normal;
-    font-weight: 500;
-    font-size: 24px;
-    line-height: 31px;
+    min-width: var(--btn-maxW);
+    font-style: var(--fontStyletNormal);
+    font-weight: var(--font500);
+    font-size: var(--btnSize);
 
     text-align: center;
 
@@ -274,4 +274,108 @@ footer {
     cursor: pointer;
     opacity: 0.7;
     transition: var(--transition);
+}
+
+::-webkit-scrollbar {
+    width: 8px;
+}
+
+::-webkit-scrollbar-track {
+    box-shadow: inset 0 0 5px grey;
+    border-radius: 10px;
+}
+
+::-webkit-scrollbar-thumb {
+    background: var(--secondary);
+    border-radius: 10px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+    background: #6c3181;
+}
+
+.ctas {
+    display: flex;
+    flex-direction: row;
+    gap: 32px;
+    align-items: center;
+}
+
+/* Media Queries */
+
+@media screen and (max-width: 1440px) {
+    :root {
+        --btnSize: 18px;
+        --linkSize: 18px;
+        --h1Size: 72px;
+        --h2Size: 32px;
+
+        --linkLineHeight: 31px;
+        --h1LineHeight: 72px;
+        --h2LineHeight: 61px;
+
+        --btn-maxW: 280px;
+        --btn-p: 15px 57px;
+
+    }
+
+    .logo {
+        width: 165px;
+    }
+
+    nav {
+        padding: 16px 72px;
+
+    }
+}
+
+@media screen and (max-width: 957px) {
+    .imgBg--grid {
+        grid-template-columns: 1fr 1fr;
+
+    }
+}
+
+@media screen and (max-width: 768px) {
+    :root {
+        --btnSize: 14px;
+        --linkSize: 18px;
+        --h1Size: 40px;
+        --h2Size: 24px;
+
+        --linkLineHeight: 31px;
+        --h1LineHeight: 60px;
+        --h2LineHeight: 36px;
+
+        --btn-maxW: 100%;
+        --btn-p: 10px 57px;
+
+    }
+
+    .imgBg--grid,
+    .project-imgs {
+        grid-template-columns: 1fr;
+    }
+
+    nav {
+        flex-direction: column;
+    }
+
+    footer {
+        flex-direction: column;
+        gap: 32px;
+    }
+
+    .text--md {
+        margin-bottom: 72px;
+    }
+
+    .ctas {
+        flex-direction: column;
+    }
+
+    .text--small {
+        text-align: center;
+    }
+
 }
