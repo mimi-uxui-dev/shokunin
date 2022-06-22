@@ -111,6 +111,15 @@ h2 {
     height: auto;
 }
 
+.project-imgs {
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr;
+    gap: 30px;
+
+    margin: 64px 0;
+
+}
+
 
 .project-id:hover {
     cursor: pointer;
@@ -128,6 +137,11 @@ h2 {
 
 .about {
     background-image: url(./imgs/About.png);
+}
+
+.project-id-bg {
+    background-image: url(./imgs/individualProject.png);
+
 }
 
 .proposals {
@@ -238,6 +252,10 @@ footer {
 
 .mt {
     margin-top: 32px;
+}
+
+.mb {
+    margin-bottom: 32px;
 }
 
 .footer__sm {
