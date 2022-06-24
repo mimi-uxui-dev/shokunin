@@ -1071,47 +1071,1877 @@ module.exports = function (css, options) {
 };
 
 },{}],25:[function(require,module,exports){
-/**
- * 
- * 
-### 8. run project
-```bash
-npm start 
-
-// before deploying, run 
-
-npm run build
-git add -A
-git commit -m 'Some message'
-git push
-```
-
- */
-
-const csjs = require('csjs-inject')
 const bel = require('bel')
-const navigation = require("./navigation.js")
+const csjs = require('csjs-inject')
+const footer = require('footer')()
+const start_page = require('start_page')()
+const about_page = require('about')()
+const proposals_page = require('proposals')()
+const projects_page = require('projects')()
 
+module.exports = page
 
+function page () {
 
-function start () {
-  const el = document.createElement('div')
-  el.appendChild = 'Hello world'
-  document.body.appendChild(el)
+  // -------------------HTML ELEMENTS -------------------
+  const about_btn = bel`<div class=${css.nav__link} onclick=${(e) => handle_click(e)}>About</div>`
+  const proposals_btn = bel`<div class=${css.nav__link} onclick=${(e) => handle_click(e)}>Proposals</div>`
+  const projects_btn = bel`<div class=${css.nav__link} onclick=${(e) => handle_click(e)}>Projects</div>`
+  
+  const nav = bel`
+    <nav role="navigation">
+      <img 
+        onclick=${(e) => handle_click(e)}  
+        class=${css.logo} 
+        src="assets/imgs/Logo.png" 
+        alt="Shokunin home" 
+      />
+      <div class=${css.nav__links}>
+        ${about_btn}
+        ${proposals_btn}
+        ${projects_btn}
+      </div>
+    </nav>
+  `
+
+  const page_body = bel`<div>${start_page}</div>`
+  
+  const el = bel` 
+    <div class="${css.container}">
+      ${nav}
+      ${page_body}
+      ${footer}
+    </div>
+  `
+
+  // -------------------JS LOGIC -------------------
+  function handle_click (event) {
+    // console.log('New click', event.target)
+    const btn = event.target.innerText
+    let new_page
+    if (btn === 'About') new_page = about_page
+    else if (btn === 'Proposals') new_page = proposals_page
+    else if (btn === 'Projects') new_page = projects_page
+    else if (event.target.alt === 'Shokunin home') new_page = start_page
+    page_body.innerHTML = ''
+    page_body.appendChild(new_page)
+  }
+
+  // -------------------RETURN ELEMENT -------------------
+  return el
+  
 }
 
-start()
-},{"./navigation.js":26,"bel":2,"csjs-inject":5}],26:[function(require,module,exports){
-const csjs = require('csjs-inject')
+
+const css = csjs`
+:root {
+  --bgColor: #110042;
+  --textColor: #fff;
+  --secondary: #C931FF;
+
+  --transition: all ease 0.5s;
+
+  --linkLineHeight: 31px;
+  --h1LineHeight: 100px;
+  --h2LineHeight: 61px;
+  --btnSize: 24px;
+
+  --linkSize: 25px;
+  --h1Size: 96px;
+  --h2Size: 48px;
+
+  --font500: 500;
+  --font700: 700;
+  --fontStyletNormal: normal;
+
+  --nav__linksGAP: 32px;
+
+  --btn-maxW: 315px;
+  --btn-p: 18px 67px;
+}
+
+* {
+  box-sizing: border-box;
+  padding: 0;
+  margin: 0;
+  font-family: 'Space Grotesk';
+}
+
+body {
+  background-color: var(--bgColor);
+}
+
+.container {
+  max-width: 1512px;
+  margin: 0 auto;
+}
+
+nav {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 24px 72px;
+}
+
+.nav__links {
+  display: flex;
+  flex-direction: row;
+  gap: var(--nav__linksGAP);
+}
+
+.nav__links a:hover, .nav__link:hover {
+  cursor: pointer;
+  color: var(--secondary);
+  transition: var(--transition);
+}
+
+
+.nav__link {
+  font-style: var(--fontStyletNormal);
+  font-weight: var(--font500);
+  font-size: var(--linkSize);
+  line-height: var(--linkLineHeight);
+  color: var(--textColor);
+  text-decoration: none;
+}
+
+/******************************/
+
+::-webkit-scrollbar {
+  width: 8px;
+}
+
+::-webkit-scrollbar-track {
+  box-shadow: inset 0 0 5px grey;
+  border-radius: 10px;
+}
+
+::-webkit-scrollbar-thumb {
+  background: var(--secondary);
+  border-radius: 10px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: #6c3181;
+}
+
+/* ------------------------------ Media Queries */
+
+@media screen and (max-width: 1440px) {
+  :root {
+      --btnSize: 18px;
+      --linkSize: 18px;
+      --h1Size: 72px;
+      --h2Size: 32px;
+
+      --linkLineHeight: 31px;
+      --h1LineHeight: 72px;
+      --h2LineHeight: 61px;
+
+      --btn-maxW: 280px;
+      --btn-p: 15px 57px;
+
+  }
+
+  .logo {
+      width: 165px;
+  }
+
+  nav {
+      padding: 16px 72px;
+
+  }
+}
+
+@media screen and (max-width: 957px) {
+  .imgBg--grid {
+      grid-template-columns: 1fr 1fr;
+
+  }
+}
+
+@media screen and (max-width: 768px) {
+  :root {
+      --btnSize: 14px;
+      --linkSize: 18px;
+      --h1Size: 40px;
+      --h2Size: 24px;
+
+      --linkLineHeight: 31px;
+      --h1LineHeight: 60px;
+      --h2LineHeight: 36px;
+
+      --btn-maxW: 100%;
+      --btn-p: 10px 57px;
+
+  }
+
+  .imgBg--grid,
+  .project-imgs {
+      grid-template-columns: 1fr;
+  }
+
+  nav {
+      flex-direction: column;
+  }
+
+
+}
+`
+
+document.body.append(page())
+},{"about":26,"bel":2,"csjs-inject":5,"footer":27,"projects":29,"proposals":30,"start_page":31}],26:[function(require,module,exports){
 const bel = require('bel')
+const csjs = require('csjs-inject')
 
-module.exports = navigation
+module.exports = about
 
-function navigation(){
-    return bel`
-        <h1>
-            navigation
-        </h1>
+function about () {
+
+  const el = bel`  
+  <div class="${css.container}">
+    <div class="${css.about} ${css.imgBg}">
+      <h1>About</h1>
+    </div>
+    <div class="${css.imgBg}">
+      <div>
+        <h2>
+          Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do
+          eiusmod tempor incididunt ut labore et dolore magna aliqua.
+        </h2>
+
+        <p class="${css['text--md']} ${css.mt}">
+          Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do
+          eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim
+          ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut
+          aliquip ex ea commodo consequat. Duis aute irure dolor in
+          reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla
+          pariatur. Excepteur sint occaecat cupidatat non proident, sunt in
+          culpa qui officia deserunt mollit anim id est laborum.
+        </p>
+      </div>
+      <a chref="/" class="${css.btn} ${css['btn--primary']}">Join Discord</a>
+    </div>
+</div>
+  `
+  return el
+}
+
+
+const css = csjs`
+:root {
+  --bgColor: #110042;
+  --textColor: #fff;
+  --secondary: #C931FF;
+
+  --transition: all ease 0.5s;
+
+  --linkLineHeight: 31px;
+  --h1LineHeight: 100px;
+  --h2LineHeight: 61px;
+  --btnSize: 24px;
+
+  --linkSize: 25px;
+  --h1Size: 96px;
+  --h2Size: 48px;
+
+  --font500: 500;
+  --font700: 700;
+  --fontStyletNormal: normal;
+
+  --nav__linksGAP: 32px;
+
+  --btn-maxW: 315px;
+  --btn-p: 18px 67px;
+}
+
+* {
+  box-sizing: border-box;
+  padding: 0;
+  margin: 0;
+  font-family: 'Space Grotesk';
+}
+
+body {
+  background-color: var(--bgColor);
+}
+
+.container {
+  max-width: 1512px;
+  margin: 0 auto;
+}
+
+
+.about {
+  background-image: url(assets/imgs/About.png);
+}
+
+.imgBg {
+  background-position: center;
+  background-repeat: no-repeat;
+  background-size: cover;
+  width: 100%;
+  height: auto;
+  min-height: 700px;
+  padding: 80px 72px;
+  display: flex;
+  justify-content: space-between;
+  flex-direction: column;
+}
+
+
+h1 {
+  font-style: var(--fontStyletNormal);
+  font-weight: var(--font700);
+  font-size: var(--h1Size);
+  line-height: var(--h1LineHeight);
+  color: var(--textColor);
+  text-transform: uppercase;
+  max-width: 695px;
+}
+
+h2 {
+  font-style: var(--fontStyletNormal);
+  font-weight: var(--font500);
+  font-size: var(--h2Size);
+  line-height: var(--h2LineHeight);
+  max-width: 1120px;
+  color: var(--textColor);
+}
+
+.text--md {
+  font-style: normal;
+  font-weight: 500;
+  font-size: 24px;
+  line-height: 31px;
+
+  color: #FFFFFF;
+
+}
+
+.mt {
+  margin-top: 32px;
+}
+
+
+.btn {
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+  padding: var(--btn-p);
+  gap: 10px;
+
+  border-radius: 12px;
+
+  width: fit-content;
+  min-width: var(--btn-maxW);
+  font-style: var(--fontStyletNormal);
+  font-weight: var(--font500);
+  font-size: var(--btnSize);
+  line-height: 31px;
+  /* identical to box height */
+
+  text-align: center;
+  border: 3px solid transparent;
+
+}
+
+
+.btn--primary {
+  background: #C931FF;
+  color: #FFFFFF;
+}
+
+
+.btn:hover,
+.btn--outline:hover {
+  cursor: pointer;
+  background-color: var(--textColor);
+  color: var(--secondary);
+  transition: var(--transition);
+
+}
+
+/***************************************************************/
+
+
+
+
+
+
+::-webkit-scrollbar {
+  width: 8px;
+}
+
+::-webkit-scrollbar-track {
+  box-shadow: inset 0 0 5px grey;
+  border-radius: 10px;
+}
+
+::-webkit-scrollbar-thumb {
+  background: var(--secondary);
+  border-radius: 10px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: #6c3181;
+}
+
+.ctas {
+  display: flex;
+  flex-direction: row;
+  gap: 32px;
+  align-items: center;
+}
+
+/* Media Queries */
+
+@media screen and (max-width: 1440px) {
+  :root {
+      --btnSize: 18px;
+      --linkSize: 18px;
+      --h1Size: 72px;
+      --h2Size: 32px;
+
+      --linkLineHeight: 31px;
+      --h1LineHeight: 72px;
+      --h2LineHeight: 61px;
+
+      --btn-maxW: 280px;
+      --btn-p: 15px 57px;
+
+  }
+
+  .logo {
+      width: 165px;
+  }
+
+  nav {
+      padding: 16px 72px;
+
+  }
+}
+
+@media screen and (max-width: 957px) {
+  .imgBg--grid {
+      grid-template-columns: 1fr 1fr;
+
+  }
+}
+
+@media screen and (max-width: 768px) {
+  :root {
+      --btnSize: 14px;
+      --linkSize: 18px;
+      --h1Size: 40px;
+      --h2Size: 24px;
+
+      --linkLineHeight: 31px;
+      --h1LineHeight: 60px;
+      --h2LineHeight: 36px;
+
+      --btn-maxW: 100%;
+      --btn-p: 10px 57px;
+
+  }
+
+  .imgBg--grid,
+  .project-imgs {
+      grid-template-columns: 1fr;
+  }
+
+  nav {
+      flex-direction: column;
+  }
+
+  footer {
+      flex-direction: column;
+      gap: 32px;
+  }
+
+  .text--md {
+      margin-bottom: 72px;
+  }
+
+  .ctas {
+      flex-direction: column;
+  }
+
+  .text--small {
+      text-align: center;
+  }
+
+}
+`
+},{"bel":2,"csjs-inject":5}],27:[function(require,module,exports){
+const bel = require('bel')
+const csjs = require('csjs-inject')
+
+module.exports = footer
+
+function footer () {
+
+  const el = bel`  
+  <footer>
+    <p class="${css['text--small']}">Shokunin Network 2022 | All Rights Reserved</p>
+    <div class=${css.footer__sm}>
+      <a href="/">
+        <img src="assets/imgs/discord.png" alt="Shokunin discord" />
+      </a>
+      <a href="/">
+        <img src="assets/imgs/twitter.png" alt="Shokunin twitter" />
+      </a>
+    </div>
+  </footer>
+
+  `
+  return el
+}
+
+
+const css = csjs`
+:root {
+  --bgColor: #110042;
+  --textColor: #fff;
+  --secondary: #C931FF;
+
+  --transition: all ease 0.5s;
+
+  --linkLineHeight: 31px;
+  --h1LineHeight: 100px;
+  --h2LineHeight: 61px;
+  --btnSize: 24px;
+
+  --linkSize: 25px;
+  --h1Size: 96px;
+  --h2Size: 48px;
+
+  --font500: 500;
+  --font700: 700;
+  --fontStyletNormal: normal;
+
+  --nav__linksGAP: 32px;
+
+  --btn-maxW: 315px;
+  --btn-p: 18px 67px;
+}
+
+* {
+  box-sizing: border-box;
+  padding: 0;
+  margin: 0;
+  font-family: 'Space Grotesk';
+}
+
+body {
+  background-color: var(--bgColor);
+}
+
+.container {
+  max-width: 1512px;
+  margin: 0 auto;
+}
+
+
+footer {
+  border-top: 1px solid #FFFFFF;
+  display: flex;
+  justify-content: space-between;
+  padding: 32px 72px;
+}
+
+
+.text--small {
+  font-style: normal;
+  font-weight: 400;
+  font-size: 20px;
+  color: #FFFFFF;
+}
+
+
+.footer__sm {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 32px;
+}
+
+.footer__sm img {
+  width: 40px;
+  height: 100%;
+}
+
+.footer__sm img:hover {
+  cursor: pointer;
+  opacity: 0.7;
+  transition: var(--transition);
+}
+
+a {
+  font-style: var(--fontStyletNormal);
+  font-weight: var(--font500);
+  font-size: var(--linkSize);
+  line-height: var(--linkLineHeight);
+  color: var(--textColor);
+  text-decoration: none;
+}
+
+/****************************************************/
+
+
+
+::-webkit-scrollbar {
+  width: 8px;
+}
+
+::-webkit-scrollbar-track {
+  box-shadow: inset 0 0 5px grey;
+  border-radius: 10px;
+}
+
+::-webkit-scrollbar-thumb {
+  background: var(--secondary);
+  border-radius: 10px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: #6c3181;
+}
+
+.ctas {
+  display: flex;
+  flex-direction: row;
+  gap: 32px;
+  align-items: center;
+}
+
+/* Media Queries */
+
+
+@media screen and (max-width: 768px) {
+
+
+  footer {
+      flex-direction: column;
+      gap: 32px;
+  }
+
+}
+`
+},{"bel":2,"csjs-inject":5}],28:[function(require,module,exports){
+const bel = require('bel')
+const csjs = require('csjs-inject')
+
+module.exports = projectSingle 
+
+function projectSingle(item) {
+
+    const el = bel`
+        <div class='${css.container}'>
+            <div class="${css.projectidbg} ${css.imgBg}">
+                <h1>
+                    ${item.projectName}
+                </h1>
+            </div>
+
+            <div class="${css.imgBg}">
+            <div>
+                <h2>
+                    ${item.contentTitle}
+                </h2>
+
+                <div class="${css.projectimgs}">
+                    ${item.projectImages.map(img => bel`<img
+                            class='${css.projectid}'
+                            src="${img}"
+                            alt=""
+                        />` 
+                    )}
+                </div>
+
+                <p class="${css.textmd} ${css.mt} ${css.mb}">
+                    ${item.content}
+                </p>
+            </div>
+            <a target='_blank' href="${item.projectURL}" class="${css.btn} ${css.btnprimary}">Open Project</a>
+            </div>
+        </div>
     `
+
+    return el 
 }
+
+
+const css = csjs`
+:root {
+  --bgColor: #110042;
+  --textColor: #fff;
+  --secondary: #C931FF;
+
+  --transition: all ease 0.5s;
+
+  --linkLineHeight: 31px;
+  --h1LineHeight: 100px;
+  --h2LineHeight: 61px;
+  --btnSize: 24px;
+
+  --linkSize: 25px;
+  --h1Size: 96px;
+  --h2Size: 48px;
+
+  --font500: 500;
+  --font700: 700;
+  --fontStyletNormal: normal;
+
+  --nav__linksGAP: 32px;
+
+  --btn-maxW: 315px;
+  --btn-p: 18px 67px;
+}
+
+* {
+  box-sizing: border-box;
+  padding: 0;
+  margin: 0;
+  font-family: 'Space Grotesk';
+}
+
+body {
+  background-color: var(--bgColor);
+}
+
+.container {
+  max-width: 1512px;
+  margin: 0 auto;
+}
+
+.projectidbg {
+  background-image: url(assets/imgs/individualProject.png);
+}
+
+.imgBg {
+  background-position: center;
+  background-repeat: no-repeat;
+  background-size: cover;
+  width: 100%;
+  height: auto;
+  min-height: 700px;
+  padding: 80px 72px;
+  display: flex;
+  justify-content: space-between;
+  flex-direction: column;
+}
+
+
+a {
+  font-style: var(--fontStyletNormal);
+  font-weight: var(--font500);
+  font-size: var(--linkSize);
+  line-height: var(--linkLineHeight);
+  color: var(--textColor);
+  text-decoration: none;
+}
+
+h1 {
+  font-style: var(--fontStyletNormal);
+  font-weight: var(--font700);
+  font-size: var(--h1Size);
+  line-height: var(--h1LineHeight);
+  color: var(--textColor);
+  text-transform: uppercase;
+  max-width: 695px;
+}
+
+h2 {
+  font-style: var(--fontStyletNormal);
+  font-weight: var(--font500);
+  font-size: var(--h2Size);
+  line-height: var(--h2LineHeight);
+  max-width: 1120px;
+  color: var(--textColor);
+}
+
+.project-imgs, .projectimgs  {
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr;
+  gap: 30px;
+  margin: 64px 0;
+}
+
+.project-id, .projectid  {
+
+  width: 100%;
+  height: auto;
+}
+
+.textmd {
+  font-style: normal;
+  font-weight: 500;
+  font-size: 24px;
+  line-height: 31px;
+
+  color: #FFFFFF;
+
+}
+
+.mt {
+margin-top: 32px;
+}
+
+.mb {
+margin-bottom: 32px;
+}
+
+.btnprimary {
+  background: #C931FF;
+  color: #FFFFFF;
+}
+
+
+.btn {
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+  padding: var(--btn-p);
+  gap: 10px;
+
+  border-radius: 12px;
+
+  width: fit-content;
+  min-width: var(--btn-maxW);
+  font-style: var(--fontStyletNormal);
+  font-weight: var(--font500);
+  font-size: var(--btnSize);
+  line-height: 31px;
+  /* identical to box height */
+
+  text-align: center;
+  border: 3px solid transparent;
+
+}
+
+.btn:hover,
+.btn--outline:hover {
+  cursor: pointer;
+  background-color: var(--textColor);
+  color: var(--secondary);
+  transition: var(--transition);
+
+}
+/*****************************************************/
+
+
+::-webkit-scrollbar {
+  width: 8px;
+}
+
+::-webkit-scrollbar-track {
+  box-shadow: inset 0 0 5px grey;
+  border-radius: 10px;
+}
+
+::-webkit-scrollbar-thumb {
+  background: var(--secondary);
+  border-radius: 10px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: #6c3181;
+}
+
+
+/* Media Queries */
+
+@media screen and (max-width: 1440px) {
+  :root {
+      --btnSize: 18px;
+      --linkSize: 18px;
+      --h1Size: 72px;
+      --h2Size: 32px;
+
+      --linkLineHeight: 31px;
+      --h1LineHeight: 72px;
+      --h2LineHeight: 61px;
+
+      --btn-maxW: 280px;
+      --btn-p: 15px 57px;
+
+  }
+
+  .logo {
+      width: 165px;
+  }
+
+  nav {
+      padding: 16px 72px;
+
+  }
+}
+
+@media screen and (max-width: 957px) {
+  .imgBg--grid {
+      grid-template-columns: 1fr 1fr;
+
+  }
+}
+
+@media screen and (max-width: 768px) {
+  :root {
+      --btnSize: 14px;
+      --linkSize: 18px;
+      --h1Size: 40px;
+      --h2Size: 24px;
+
+      --linkLineHeight: 31px;
+      --h1LineHeight: 60px;
+      --h2LineHeight: 36px;
+
+      --btn-maxW: 100%;
+      --btn-p: 10px 57px;
+
+  }
+
+  .imgBg--grid,
+  .project-imgs, 
+  .projectimgs {
+      grid-template-columns: 1fr;
+  }
+
+  nav {
+      flex-direction: column;
+  }
+
+  footer {
+      flex-direction: column;
+      gap: 32px;
+  }
+
+  .text--md {
+      margin-bottom: 72px;
+  }
+
+  .ctas {
+      flex-direction: column;
+  }
+
+  .text--small {
+      text-align: center;
+  }
+
+}
+`
+},{"bel":2,"csjs-inject":5}],29:[function(require,module,exports){
+const bel = require('bel')
+const csjs = require('csjs-inject')
+const singleProject_page = require('./projectSingle')
+
+module.exports = projects
+
+const projectsList = [
+  {
+    id: 000, 
+    projectName: 'Super Awesome Project Name',
+    contentTitle: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.',
+    content: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.',
+    projectMainImg: 'https://via.placeholder.com/445x303',
+    projectImages: [
+      'https://via.placeholder.com/445x303',
+      'https://via.placeholder.com/445x303',
+      'https://via.placeholder.com/445x303'
+    ],
+    projectURL: 'https://google.com'
+  },
+  {
+    id: 001, 
+    projectName: 'Super Awesome Project Name 2',
+    contentTitle: 'Lorem 2 ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.',
+    content: 'Lorem 2 ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.',
+    projectMainImg: 'https://via.placeholder.com/445x303',
+    
+    projectImages: [
+      'https://via.placeholder.com/445x303',
+      'https://via.placeholder.com/445x303',
+      'https://via.placeholder.com/445x303'
+    ],
+    projectURL: 'https://youtube.com'
+  },
+  {
+    id: 003, 
+    projectName: 'Super Awesome Project Name',
+    contentTitle: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.',
+    content: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.',
+    projectMainImg: 'https://via.placeholder.com/445x303',
+    
+    projectImages: [
+      'https://via.placeholder.com/445x303',
+      'https://via.placeholder.com/445x303',
+      'https://via.placeholder.com/445x303'
+    ],
+    projectURL: 'https://google.com'
+  },
+  {
+    id: 004, 
+    projectName: 'Super Awesome Project Name 2',
+    contentTitle: 'Lorem 2 ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.',
+    content: 'Lorem 2 ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.',
+    projectMainImg: 'https://via.placeholder.com/445x303',
+    projectImages: [
+      'https://via.placeholder.com/445x303',
+      'https://via.placeholder.com/445x303',
+      'https://via.placeholder.com/445x303'
+    ],
+    projectURL: 'https://youtube.com'
+  },
+  {
+    id: 005, 
+    projectName: 'Super Awesome Project Name',
+    contentTitle: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.',
+    content: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.',
+    projectMainImg: 'https://via.placeholder.com/445x303',
+    projectImages: [
+      'https://via.placeholder.com/445x303',
+      'https://via.placeholder.com/445x303',
+      'https://via.placeholder.com/445x303'
+    ],
+    projectURL: 'https://google.com'
+  },
+  {
+    id: 006, 
+    projectName: 'Super Awesome Project Name 2',
+    contentTitle: 'Lorem 2 ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.',
+    content: 'Lorem 2 ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.',
+    projectMainImg: 'https://via.placeholder.com/445x303',
+    projectImages: [
+      'https://via.placeholder.com/445x303',
+      'https://via.placeholder.com/445x303',
+      'https://via.placeholder.com/445x303'
+    ],
+    projectURL: 'https://youtube.com'
+  }
+]
+
+function projects () {
+
+  var el = bel`  
+    <div class="${css.container}">
+      <div class="${css.projects} ${css.imgBg}">
+        <h1>
+          BROWSE <br />
+          SHOKUNIN <br />
+          PROJECTS <br />
+        </h1>
+      </div>
+      <div class="${css['imgBg--grid']}">
+        ${
+          projectsList.map(item => bel`<img onclick=${() => openSingleProject(item)} class="${css['project-id']}" src="${item.projectMainImg}" alt="" />`)
+        }
+      </div>
+    </div>
+  `
+
+  function openSingleProject(item){
+    el.innerHTML = ''
+    el.append(singleProject_page(item))
+    return el
+
+  }
+  
+  return el
+}
+
+
+const css = csjs`
+:root {
+  --bgColor: #110042;
+  --textColor: #fff;
+  --secondary: #C931FF;
+
+  --transition: all ease 0.5s;
+
+  --linkLineHeight: 31px;
+  --h1LineHeight: 100px;
+  --h2LineHeight: 61px;
+  --btnSize: 24px;
+
+  --linkSize: 25px;
+  --h1Size: 96px;
+  --h2Size: 48px;
+
+  --font500: 500;
+  --font700: 700;
+  --fontStyletNormal: normal;
+
+  --nav__linksGAP: 32px;
+
+  --btn-maxW: 315px;
+  --btn-p: 18px 67px;
+}
+
+* {
+  box-sizing: border-box;
+  padding: 0;
+  margin: 0;
+  font-family: 'Space Grotesk';
+}
+
+body {
+  background-color: var(--bgColor);
+}
+
+.container {
+  max-width: 1512px;
+  margin: 0 auto;
+}
+
+
+.projects {
+  background-image: url(assets/imgs/Projects.png);
+}
+
+.imgBg {
+  background-position: center;
+  background-repeat: no-repeat;
+  background-size: cover;
+  width: 100%;
+  height: auto;
+  min-height: 700px;
+  padding: 80px 72px;
+  display: flex;
+  justify-content: space-between;
+  flex-direction: column;
+}
+
+
+.imgBg--grid {
+  width: 100%;
+  height: auto;
+  min-height: 700px;
+  padding: 80px 72px;
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr;
+  gap: 30px;
+}
+
+h1 {
+  font-style: var(--fontStyletNormal);
+  font-weight: var(--font700);
+  font-size: var(--h1Size);
+  line-height: var(--h1LineHeight);
+  color: var(--textColor);
+  text-transform: uppercase;
+  max-width: 695px;
+}
+
+
+.project-id {
+
+  width: 100%;
+  height: auto;
+}
+
+
+.project-id:hover {
+  cursor: pointer;
+  transform: translateY(-10px);
+  transition: var(--transition);
+}
+
+/******************************************************************/
+
+
+/* Media Queries */
+
+@media screen and (max-width: 1440px) {
+  :root {
+      --btnSize: 18px;
+      --linkSize: 18px;
+      --h1Size: 72px;
+      --h2Size: 32px;
+
+      --linkLineHeight: 31px;
+      --h1LineHeight: 72px;
+      --h2LineHeight: 61px;
+
+      --btn-maxW: 280px;
+      --btn-p: 15px 57px;
+
+  }
+
+  .logo {
+      width: 165px;
+  }
+
+  nav {
+      padding: 16px 72px;
+
+  }
+}
+
+@media screen and (max-width: 957px) {
+  .imgBg--grid {
+      grid-template-columns: 1fr 1fr;
+
+  }
+}
+
+@media screen and (max-width: 768px) {
+  :root {
+      --btnSize: 14px;
+      --linkSize: 18px;
+      --h1Size: 40px;
+      --h2Size: 24px;
+
+      --linkLineHeight: 31px;
+      --h1LineHeight: 60px;
+      --h2LineHeight: 36px;
+
+      --btn-maxW: 100%;
+      --btn-p: 10px 57px;
+
+  }
+
+  .imgBg--grid,
+  .project-imgs {
+      grid-template-columns: 1fr;
+  }
+
+  nav {
+      flex-direction: column;
+  }
+
+  footer {
+      flex-direction: column;
+      gap: 32px;
+  }
+
+  .text--md {
+      margin-bottom: 72px;
+  }
+
+  .ctas {
+      flex-direction: column;
+  }
+
+  .text--small {
+      text-align: center;
+  }
+
+}
+`
+},{"./projectSingle":28,"bel":2,"csjs-inject":5}],30:[function(require,module,exports){
+const bel = require('bel')
+const csjs = require('csjs-inject')
+
+module.exports = proposals
+
+function proposals () {
+
+  const el = bel`  
+  <div class="${css.container}">
+  <div class="${css.proposals} ${css.imgBg}">
+    <h1>
+      SOMETHING <br />
+      ABOUT <br />
+      PROPOSALS <br />
+      + FORM
+    </h1>
+  </div>
+  <div class="${css.imgBg}">
+    <h2>
+      Somehing about proposal rules <br />
+      and filling out the form
+    </h2>
+    <div class="${css.ctas}">
+      <a href="/" class="${css.btn} ${css['btn--primary']}">Fill Out Form</a>
+      <a href="/" class="${css['btn--outline']}">Proposal Rules</a>
+      <a href="/" class="${css.icon}">
+        <img src="../../assets/imgs/discordPurple.png" alt="" />
+      </a>
+    </div>
+  </div>
+</div>
+
+  `
+  return el
+}
+
+
+const css = csjs`
+:root {
+  --bgColor: #110042;
+  --textColor: #fff;
+  --secondary: #C931FF;
+
+  --transition: all ease 0.5s;
+
+  --linkLineHeight: 31px;
+  --h1LineHeight: 100px;
+  --h2LineHeight: 61px;
+  --btnSize: 24px;
+
+  --linkSize: 25px;
+  --h1Size: 96px;
+  --h2Size: 48px;
+
+  --font500: 500;
+  --font700: 700;
+  --fontStyletNormal: normal;
+
+  --nav__linksGAP: 32px;
+
+  --btn-maxW: 315px;
+  --btn-p: 18px 67px;
+}
+
+* {
+  box-sizing: border-box;
+  padding: 0;
+  margin: 0;
+  font-family: 'Space Grotesk';
+}
+
+body {
+  background-color: var(--bgColor);
+}
+
+.container {
+  max-width: 1512px;
+  margin: 0 auto;
+}
+
+.proposals {
+  background-image: url(assets/imgs/Proposals.png);
+}
+
+.imgBg {
+  background-position: center;
+  background-repeat: no-repeat;
+  background-size: cover;
+  width: 100%;
+  height: auto;
+  min-height: 700px;
+  padding: 80px 72px;
+  display: flex;
+  justify-content: space-between;
+  flex-direction: column;
+}
+
+h1 {
+  font-style: var(--fontStyletNormal);
+  font-weight: var(--font700);
+  font-size: var(--h1Size);
+  line-height: var(--h1LineHeight);
+  color: var(--textColor);
+  text-transform: uppercase;
+  max-width: 695px;
+}
+
+h2 {
+  font-style: var(--fontStyletNormal);
+  font-weight: var(--font500);
+  font-size: var(--h2Size);
+  line-height: var(--h2LineHeight);
+  max-width: 1120px;
+  color: var(--textColor);
+}
+
+.ctas {
+  display: flex;
+  flex-direction: row;
+  gap: 32px;
+  align-items: center;
+}
+
+.btn {
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+  padding: var(--btn-p);
+  gap: 10px;
+
+  border-radius: 12px;
+
+  width: fit-content;
+  min-width: var(--btn-maxW);
+  font-style: var(--fontStyletNormal);
+  font-weight: var(--font500);
+  font-size: var(--btnSize);
+  line-height: 31px;
+  /* identical to box height */
+
+  text-align: center;
+  border: 3px solid transparent;
+
+}
+
+.btn--outline {
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+  padding: var(--btn-p);
+  gap: 10px;
+
+  border-radius: 12px;
+
+  width: fit-content;
+  min-width: var(--btn-maxW);
+  font-style: var(--fontStyletNormal);
+  font-weight: var(--font500);
+  font-size: var(--btnSize);
+
+  text-align: center;
+
+  border: 3px solid #FFFFFF;
+
+  color: var(--textColor);
+}
+
+.btn--primary {
+  background: #C931FF;
+  color: #FFFFFF;
+}
+
+.btn--secondary {
+  background: var(--bgColor);
+  color: #FFFFFF;
+}
+
+.btn:hover,
+.btn--outline:hover {
+  cursor: pointer;
+  background-color: var(--textColor);
+  color: var(--secondary);
+  transition: var(--transition);
+}
+
+.icon:hover {
+  cursor: pointer;
+  opacity: 0.7;
+  transition: var(--transition);
+}
+
+
+a {
+  font-style: var(--fontStyletNormal);
+  font-weight: var(--font500);
+  font-size: var(--linkSize);
+  line-height: var(--linkLineHeight);
+  color: var(--textColor);
+  text-decoration: none;
+}
+
+
+/*****************************************************************/
+
+::-webkit-scrollbar {
+  width: 8px;
+}
+
+::-webkit-scrollbar-track {
+  box-shadow: inset 0 0 5px grey;
+  border-radius: 10px;
+}
+
+::-webkit-scrollbar-thumb {
+  background: var(--secondary);
+  border-radius: 10px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: #6c3181;
+}
+
+
+/* Media Queries */
+
+@media screen and (max-width: 1440px) {
+  :root {
+      --btnSize: 18px;
+      --linkSize: 18px;
+      --h1Size: 72px;
+      --h2Size: 32px;
+
+      --linkLineHeight: 31px;
+      --h1LineHeight: 72px;
+      --h2LineHeight: 61px;
+
+      --btn-maxW: 280px;
+      --btn-p: 15px 57px;
+
+  }
+
+  .logo {
+      width: 165px;
+  }
+
+  nav {
+      padding: 16px 72px;
+
+  }
+}
+
+@media screen and (max-width: 957px) {
+  .imgBg--grid {
+      grid-template-columns: 1fr 1fr;
+
+  }
+}
+
+@media screen and (max-width: 768px) {
+  :root {
+      --btnSize: 14px;
+      --linkSize: 18px;
+      --h1Size: 40px;
+      --h2Size: 24px;
+
+      --linkLineHeight: 31px;
+      --h1LineHeight: 60px;
+      --h2LineHeight: 36px;
+
+      --btn-maxW: 100%;
+      --btn-p: 10px 57px;
+
+  }
+
+  .imgBg--grid,
+  .project-imgs {
+      grid-template-columns: 1fr;
+  }
+
+  nav {
+      flex-direction: column;
+  }
+
+  footer {
+      flex-direction: column;
+      gap: 32px;
+  }
+
+  .text--md {
+      margin-bottom: 72px;
+  }
+
+  .ctas {
+      flex-direction: column;
+  }
+
+  .text--small {
+      text-align: center;
+  }
+
+}
+`
+},{"bel":2,"csjs-inject":5}],31:[function(require,module,exports){
+const bel = require('bel')
+const csjs = require('csjs-inject')
+
+module.exports = start_page
+
+function start_page () {
+  const el = bel`
+  <div>
+    <div class="${css.atf} ${css.imgBg}">
+      <h1>
+        Funding <br />
+        public <br />
+        goods of <br />
+        the future
+      </h1>
+      <button class="${css.btn} ${css['btn--primary']}">Documentation</button>
+    </div>
+
+    <div class=${css.imgBg}>
+      <h2>
+        Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do
+        eiusmod tempor incididunt ut labore et dolore magna aliqua.
+      </h2>
+      <a chref="/" class="${css.btn} ${css['btn--primary']}">About</a>
+    </div>
+
+    <div class="${css.hiw} ${css.imgBg}">
+      <h1>
+        How it <br />
+        works
+      </h1>
+
+      <a href="/" class="${css.btn} ${css['btn--secondary']}">Submitting Proposals</a>
+    </div>
+
+    <div class=${css.imgBg}>
+      <h2>
+        Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do
+        eiusmod tempor incididunt ut labore et dolore magna aliqua.
+      </h2>
+      <a chref="/" class="${css.btn} ${css['btn--primary']}">Projects</a>
+    </div>
+  </div>
+  `
+  return el
+}
+
+const css = csjs`
+:root {
+  --bgColor: #110042;
+  --textColor: #fff;
+  --secondary: #C931FF;
+
+  --transition: all ease 0.5s;
+
+  --linkLineHeight: 31px;
+  --h1LineHeight: 100px;
+  --h2LineHeight: 61px;
+  --btnSize: 24px;
+
+  --linkSize: 25px;
+  --h1Size: 96px;
+  --h2Size: 48px;
+
+  --font500: 500;
+  --font700: 700;
+  --fontStyletNormal: normal;
+
+  --nav__linksGAP: 32px;
+
+  --btn-maxW: 315px;
+  --btn-p: 18px 67px;
+}
+
+* {
+  box-sizing: border-box;
+  padding: 0;
+  margin: 0;
+  font-family: 'Space Grotesk';
+}
+
+body {
+  background-color: var(--bgColor);
+}
+
+.container {
+  max-width: 1512px;
+  margin: 0 auto;
+}
+
+.imgBg {
+  background-position: center;
+  background-repeat: no-repeat;
+  background-size: cover;
+  width: 100%;
+  height: auto;
+  min-height: 700px;
+  padding: 80px 72px;
+  display: flex;
+  justify-content: space-between;
+  flex-direction: column;
+}
+
+
+.atf {
+  background-image: url(assets/imgs/Home.png);
+}
+
+
+h1 {
+  font-style: var(--fontStyletNormal);
+  font-weight: var(--font700);
+  font-size: var(--h1Size);
+  line-height: var(--h1LineHeight);
+  color: var(--textColor);
+  text-transform: uppercase;
+  max-width: 695px;
+}
+
+
+.btn {
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+  padding: var(--btn-p);
+  gap: 10px;
+
+  border-radius: 12px;
+
+  width: fit-content;
+  min-width: var(--btn-maxW);
+  font-style: var(--fontStyletNormal);
+  font-weight: var(--font500);
+  font-size: var(--btnSize);
+  line-height: 31px;
+  /* identical to box height */
+
+  text-align: center;
+  border: 3px solid transparent;
+
+}
+
+.btn--outline {
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+  padding: var(--btn-p);
+  gap: 10px;
+
+  border-radius: 12px;
+
+  width: fit-content;
+  min-width: var(--btn-maxW);
+  font-style: var(--fontStyletNormal);
+  font-weight: var(--font500);
+  font-size: var(--btnSize);
+
+  text-align: center;
+
+  border: 3px solid #FFFFFF;
+
+  color: var(--textColor);
+
+}
+
+.btn--primary {
+  background: #C931FF;
+  color: #FFFFFF;
+}
+
+.btn--secondary {
+  background: var(--bgColor);
+  color: #FFFFFF;
+}
+
+.btn:hover,
+.btn--outline:hover {
+  cursor: pointer;
+  background-color: var(--textColor);
+  color: var(--secondary);
+  transition: var(--transition);
+
+}
+
+
+.hiw {
+  background-image: url(assets/imgs/HowItWorks.png);
+}
+
+h2 {
+  font-style: var(--fontStyletNormal);
+  font-weight: var(--font500);
+  font-size: var(--h2Size);
+  line-height: var(--h2LineHeight);
+  max-width: 1120px;
+  color: var(--textColor);
+}
+
+/*******************************************************/
+
+
+
+::-webkit-scrollbar {
+  width: 8px;
+}
+
+::-webkit-scrollbar-track {
+  box-shadow: inset 0 0 5px grey;
+  border-radius: 10px;
+}
+
+::-webkit-scrollbar-thumb {
+  background: var(--secondary);
+  border-radius: 10px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: #6c3181;
+}
+
+.ctas {
+  display: flex;
+  flex-direction: row;
+  gap: 32px;
+  align-items: center;
+}
+
+/* Media Queries */
+
+@media screen and (max-width: 1440px) {
+  :root {
+      --btnSize: 18px;
+      --linkSize: 18px;
+      --h1Size: 72px;
+      --h2Size: 32px;
+
+      --linkLineHeight: 31px;
+      --h1LineHeight: 72px;
+      --h2LineHeight: 61px;
+
+      --btn-maxW: 280px;
+      --btn-p: 15px 57px;
+
+  }
+
+  .logo {
+      width: 165px;
+  }
+
+  nav {
+      padding: 16px 72px;
+
+  }
+}
+
+@media screen and (max-width: 957px) {
+  .imgBg--grid {
+      grid-template-columns: 1fr 1fr;
+
+  }
+}
+
+@media screen and (max-width: 768px) {
+  :root {
+      --btnSize: 14px;
+      --linkSize: 18px;
+      --h1Size: 40px;
+      --h2Size: 24px;
+
+      --linkLineHeight: 31px;
+      --h1LineHeight: 60px;
+      --h2LineHeight: 36px;
+
+      --btn-maxW: 100%;
+      --btn-p: 10px 57px;
+
+  }
+
+  .imgBg--grid,
+  .project-imgs {
+      grid-template-columns: 1fr;
+  }
+
+  nav {
+      flex-direction: column;
+  }
+
+  footer {
+      flex-direction: column;
+      gap: 32px;
+  }
+
+  .text--md {
+      margin-bottom: 72px;
+  }
+
+  .ctas {
+      flex-direction: column;
+  }
+
+  .text--small {
+      text-align: center;
+  }
+
+}
+  `
 },{"bel":2,"csjs-inject":5}]},{},[25]);

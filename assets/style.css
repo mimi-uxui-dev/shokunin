@@ -3,7 +3,7 @@
     --textColor: #fff;
     --secondary: #C931FF;
 
-    --transition: all ease 0.3s;
+    --transition: all ease 0.5s;
 
     --linkLineHeight: 31px;
     --h1LineHeight: 100px;
@@ -215,7 +215,7 @@ h2 {
     cursor: pointer;
     background-color: var(--textColor);
     color: var(--secondary);
-    transform: translateY(-8px);
+
     transition: var(--transition);
 
 }
