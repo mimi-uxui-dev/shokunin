@@ -59,161 +59,90 @@ function page () {
   
 }
 
-
 const css = csjs`
-:root {
-  --bgColor: #110042;
-  --textColor: #fff;
-  --secondary: #C931FF;
-
-  --transition: all ease 0.5s;
-
-  --linkLineHeight: 31px;
-  --h1LineHeight: 100px;
-  --h2LineHeight: 61px;
-  --btnSize: 24px;
-
-  --linkSize: 25px;
-  --h1Size: 96px;
-  --h2Size: 48px;
-
-  --font500: 500;
-  --font700: 700;
-  --fontStyletNormal: normal;
-
-  --nav__linksGAP: 32px;
-
-  --btn-maxW: 315px;
-  --btn-p: 18px 67px;
-}
-
-* {
-  box-sizing: border-box;
-  padding: 0;
-  margin: 0;
-  font-family: 'Space Grotesk';
-}
-
-body {
-  background-color: var(--bgColor);
-}
-
-.container {
-  max-width: 1512px;
-  margin: 0 auto;
-}
-
-nav {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  padding: 24px 72px;
-}
-
-.nav__links {
-  display: flex;
-  flex-direction: row;
-  gap: var(--nav__linksGAP);
-}
-
-.nav__links a:hover, .nav__link:hover {
-  cursor: pointer;
-  color: var(--secondary);
-  transition: var(--transition);
-}
-
-
-.nav__link {
-  font-style: var(--fontStyletNormal);
-  font-weight: var(--font500);
-  font-size: var(--linkSize);
-  line-height: var(--linkLineHeight);
-  color: var(--textColor);
-  text-decoration: none;
-}
-
-/******************************/
-
-::-webkit-scrollbar {
-  width: 8px;
-}
-
-::-webkit-scrollbar-track {
-  box-shadow: inset 0 0 5px grey;
-  border-radius: 10px;
-}
-
-::-webkit-scrollbar-thumb {
-  background: var(--secondary);
-  border-radius: 10px;
-}
-
-::-webkit-scrollbar-thumb:hover {
-  background: #6c3181;
-}
-
-/* ------------------------------ Media Queries */
-
-@media screen and (max-width: 1440px) {
   :root {
-      --btnSize: 18px;
-      --linkSize: 18px;
-      --h1Size: 72px;
-      --h2Size: 32px;
-
-      --linkLineHeight: 31px;
-      --h1LineHeight: 72px;
-      --h2LineHeight: 61px;
-
-      --btn-maxW: 280px;
-      --btn-p: 15px 57px;
-
+    --bgColor: #110042;
+    --textColor: #fff;
+    --secondary: #C931FF;
+    --transition: all ease 0.5s;
+    --linkLineHeight: 31px;
+    --linkSize: 25px;
+    --nav__linksGAP: 32px;
+    --btn-p: 18px 67px;
   }
-
-  .logo {
-      width: 165px;
+  * {
+    box-sizing: border-box;
+    padding: 0;
+    margin: 0;
+    font-family: 'Space Grotesk';
   }
-
+  body {
+    background-color: var(--bgColor);
+  }
+  .container {
+    max-width: 1512px;
+    margin: 0 auto;
+  }
   nav {
-      padding: 16px 72px;
-
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 24px 72px;
   }
-}
-
-@media screen and (max-width: 957px) {
-  .imgBg--grid {
-      grid-template-columns: 1fr 1fr;
-
+  .nav__links {
+    display: flex;
+    flex-direction: row;
+    gap: var(--nav__linksGAP);
   }
-}
-
-@media screen and (max-width: 768px) {
-  :root {
-      --btnSize: 14px;
-      --linkSize: 18px;
-      --h1Size: 40px;
-      --h2Size: 24px;
-
-      --linkLineHeight: 31px;
-      --h1LineHeight: 60px;
-      --h2LineHeight: 36px;
-
-      --btn-maxW: 100%;
-      --btn-p: 10px 57px;
-
+  .nav__links a:hover, .nav__link:hover {
+    cursor: pointer;
+    color: var(--secondary);
+    transition: var(--transition);
   }
-
-  .imgBg--grid,
-  .project-imgs {
-      grid-template-columns: 1fr;
+  .nav__link {
+    font-style: normal;
+    font-weight: 500;
+    font-size: var(--linkSize);
+    line-height: var(--linkLineHeight);
+    color: var(--textColor);
+    text-decoration: none;
   }
-
-  nav {
-      flex-direction: column;
+  ::-webkit-scrollbar {
+    width: 8px;
   }
-
-
-}
+  ::-webkit-scrollbar-track {
+    box-shadow: inset 0 0 5px grey;
+    border-radius: 10px;
+  }
+  ::-webkit-scrollbar-thumb {
+    background: var(--secondary);
+    border-radius: 10px;
+  }
+  ::-webkit-scrollbar-thumb:hover {
+    background: #6c3181;
+  }
+  @media screen and (max-width: 1440px) {
+    :root {
+        --linkSize: 18px;
+        --btn-p: 15px 57px;
+    }
+    .logo {
+        width: 165px;
+    }
+    nav {
+        padding: 16px 72px;
+    }
+  }
+  @media screen and (max-width: 768px) {
+    :root {
+        --linkSize: 18px;
+        --linkLineHeight: 31px;
+        --btn-p: 10px 57px;
+    }
+    nav {
+        flex-direction: column;
+    }
+  }
 `
 
 document.body.append(page())
